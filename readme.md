@@ -23,3 +23,18 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 ### Project development
 
 - [x] Project setup
+
+## Pipeline metrics
+
+### Master
+
+[![Build Status](https://travis-ci.org/mvsouza/JsonDiffer.svg?branch=master)](https://travis-ci.org/mvsouza/JsonDiffer)[![Build status](https://ci.appveyor.com/api/projects/status/gpgef02rfvdqrwhs/branch/master?svg=true)](https://ci.appveyor.com/project/mvsouza/JsonDiffer/branch/master)[![codecov](https://codecov.io/gh/mvsouza/JsonDiffer/branch/master/graph/badge.svg)](https://codecov.io/gh/mvsouza/JsonDiffer)
+
+### Develop
+
+[![Build Status](https://travis-ci.org/mvsouza/JsonDiffer.svg?branch=develop)](https://travis-ci.org/mvsouza/JsonDiffer)[![Build status](https://ci.appveyor.com/api/projects/status/gpgef02rfvdqrwhs/branch/develop?svg=true)](https://ci.appveyor.com/project/mvsouza/JsonDiffer/branch/develop)[![codecov](https://codecov.io/gh/mvsouza/JsonDiffer/branch/develop/graph/badge.svg)](https://codecov.io/gh/mvsouza/JsonDiffer)
+
+### SonarCloud
+
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=JsonDiffer&metric=alert_status)](https://sonarcloud.io/dashboard?id=JsonDiffer) [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=JsonDiffer&metric=coverage)](https://sonarcloud.io/component_measures?id=JsonDiffer&metric=coverage) [![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=JsonDiffer&metric=bugs)](https://sonarcloud.io/project/issues?id=JsonDiffer&resolved=false&types=BUG) [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=JsonDiffer&metric=vulnerabilities)](https://sonarcloud.io/project/issues?id=JsonDiffer&resolved=false&types=VULNERABILITY)
+[![SonarCloud Codesmels](https://sonarcloud.io/api/project_badges/measure?project=JsonDiffer&metric=code_smells)](https://sonarcloud.io/project/issues?id=JsonDiffer&resolved=false&types=code_smells)
