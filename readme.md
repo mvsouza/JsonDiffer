@@ -19,16 +19,17 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 - [x] Archtecture overview
 - [x] CI pipeline
 - [x] [Backlog(Userstories)](docs/Backlog.md)
+- [ ] Writte down Bdd Scenarios
+    - [ ] Post JSON doc for Diff
+        - [ ] Post valid diff for right and left side
+        - [ ] Post invalid diff for right and left side
+        - [ ] Post duplicated diff for right and left side
+    - [ ] Post request for JSON diff
 
-### Project development
+### Technical Tasks
 
 - [x] Project setup
-- [ ] Post JSON doc for Diff
-  - Define command IRequest implementation
-  - Create calls and post JSON 
-  - Build command handler
-  - Create memory IRepository
-- [ ] Post request for JSON diff
+- [ ] Remove fix messages from code
 
 ## Pipeline metrics
 
