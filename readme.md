@@ -17,9 +17,9 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 - [x] Problem analysis
 - [x] Archtecture concept
 - [x] Archtecture overview
-- [ ] CI pipeline
+- [x] CI pipeline
 - [ ] Backlog Userstories
 
 ### Project development
 
-- [ ] Project setup
+- [x] Project setup
