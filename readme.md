@@ -18,11 +18,17 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 - [x] Archtecture concept
 - [x] Archtecture overview
 - [x] CI pipeline
-- [ ] Backlog Userstories
+- [x] [Backlog(Userstories)](docs/Backlog.md)
 
 ### Project development
 
 - [x] Project setup
+- [ ] Post JSON doc for Diff
+  - Define command IRequest implementation
+  - Create calls and post JSON 
+  - Build command handler
+  - Create memory IRepository
+- [ ] Post request for JSON diff
 
 ## Pipeline metrics
 
