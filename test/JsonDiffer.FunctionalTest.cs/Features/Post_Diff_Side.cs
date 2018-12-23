@@ -8,20 +8,21 @@ using System.Text;
 namespace JsonDiffer.FunctionalTest.Features
 {
     [FeatureDescription(
-@"In order validate a fatorial calculus result
-As a Student
-I want to request its solution.")]
+@"In order to compare a JSON document to another posted
+As service consumer  
+I want to post it.")]
     [Label("Story-1")]
-    public partial class Solve_Calculus
+    public partial class Post_Diff_Side
     {
         [Scenario]
         [MultiAssert]
         public async void Solve_a_add()
         {
             await Runner.RunScenarioActionsAsync(
-                        _ => Given_the_calculus("5+5"),
-                        _ => When_I_request_a_calculus_to_be_solved(),
-                        _ => Then_should_result_the_value(10)
+                        _ => Given_a_Json_document_on_base64("{\"key\":\"value\"}"),
+                        _ => Given_a_diff_id("IDTEST"),
+                        _ => When_the_document_is_posted(),
+                        _ => Then_should_receive_ok_message()
                     );
         }
     }

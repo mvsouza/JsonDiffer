@@ -20,4 +20,8 @@
     <ProjectReference Include="..\..\src\JsonDiffer.Application\JsonDiffer.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\API\" />
+  </ItemGroup>
+
 </Project>
