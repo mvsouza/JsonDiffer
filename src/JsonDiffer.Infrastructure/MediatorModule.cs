@@ -17,8 +17,8 @@ namespace JsonDiffer.Infrastructure
                 .AsImplementedInterfaces();
 
             // Register all the Command classes (they implement IAsyncRequestHandler) in assembly holding the Commands
-            builder.RegisterAssemblyTypes(typeof(SolveCalculusCommand).GetTypeInfo().Assembly)
-                .AsClosedTypesOf(typeof(IRequestHandler<,>));
+            builder.RegisterAssemblyTypes(typeof(PushLeftJsonCommand).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(IRequestHandler<>));
 
 
             builder.Register<SingleInstanceFactory>(context =>

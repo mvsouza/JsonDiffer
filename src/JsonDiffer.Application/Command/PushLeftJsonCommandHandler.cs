@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace JsonDiffer.Application.Command
 {
-    public class SolveCalculusCommandHandler: IRequestHandler<SolveCalculusCommand, double>
+    public class PushLeftJsonCommandHandler: IRequestHandler<PushLeftJsonCommand>
     {
-        public async Task<double> Handle(SolveCalculusCommand command, CancellationToken cancellationToken)
+        public async Task Handle(PushLeftJsonCommand command, CancellationToken cancellationToken)
         {
             Factor f = new Factor(command.Calculus);
 
-            return f.Solve();
+            f.Solve();
         }
     }
 }

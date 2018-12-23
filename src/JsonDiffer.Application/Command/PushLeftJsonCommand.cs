@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace JsonDiffer.Application.Command
 {
-    public class SolveCalculusCommand : IRequest<double>
+    public class PushLeftJsonCommand : IRequest
     {
         public string Calculus { get; set; }
-        public SolveCalculusCommand(string calculus)
+        public PushLeftJsonCommand(string id, string json)
         {
-            Calculus = calculus;
+            Calculus = id;
         }
     }
 }

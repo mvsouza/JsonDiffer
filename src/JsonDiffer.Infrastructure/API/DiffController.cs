@@ -24,7 +24,17 @@ namespace JsonDiffer.Infrastructure.API
         [Route("{id}/left")]
         public async Task<IActionResult> PostLeft([FromQuery] string id, [FromBody]string rawData)
         {
-            return (IActionResult)Ok();
+            var command = new PushLeftJsonCommand(id, "");
+            try
+            {
+                await _mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var erroMessage = JsonConvert.SerializeObject(new { ex.Message });
+                return BadRequest(erroMessage);
+            }
         }
     }
 }
