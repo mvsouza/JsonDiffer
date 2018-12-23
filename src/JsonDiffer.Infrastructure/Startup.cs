@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using JsonDiffer.Infrastructure.InputFormattter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace JsonDiffer.Infrastructure
                     TermsOfService = "Terms Of Service"
                 });
             });
-            services.AddMvc();
+            services.AddMvc(o => o.InputFormatters.Insert(0, new RawRequestBodyFormatter()));
 
             var container = new ContainerBuilder();
             container.Populate(services);
