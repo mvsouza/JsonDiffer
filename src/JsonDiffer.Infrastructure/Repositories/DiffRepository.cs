@@ -9,11 +9,11 @@ namespace JsonDiffer.Infrastructure.Repositories
 {
     public class DiffRepository : IDiffRepository
     {
-        private List<DiffJson> _diffs;
+        private ICollection<DiffJson> _diffs;
 
-        public DiffRepository()
+        public DiffRepository(ICollection<DiffJson> diff)
         {
-            _diffs = new List<DiffJson>();
+            _diffs = diff;
         }
         public void Add(DiffJson diffJson)
         {

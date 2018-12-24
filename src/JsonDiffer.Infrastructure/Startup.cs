@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using JsonDiffer.Domain;
+using JsonDiffer.Domain.Entities;
 using JsonDiffer.Infrastructure.InputFormattter;
 using JsonDiffer.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -35,7 +37,8 @@ namespace JsonDiffer.Infrastructure
                 });
             });
             services.AddMvc(o => o.InputFormatters.Insert(0, new RawRequestBodyFormatter()));
-            services.AddSingleton<IDiffRepository, DiffRepository>();
+            services.AddSingleton<ICollection<DiffJson>,List<DiffJson>>();
+            services.AddTransient<IDiffRepository, DiffRepository>();
 
             var container = new ContainerBuilder();
             container.Populate(services);

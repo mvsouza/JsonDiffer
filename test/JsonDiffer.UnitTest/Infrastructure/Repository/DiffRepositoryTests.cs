@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using JsonDiffer.Domain.Entities;
 using JsonDiffer.Infrastructure.Repositories;
@@ -9,18 +10,20 @@ namespace JsonDiffer.UnitTest.Infrastructure.Repository
 {
     public class DiffRepositoryTests
     {
+        private List<DiffJson> _list;
         private DiffRepository _repository;
 
         public DiffRepositoryTests()
         {
-            _repository = new DiffRepository();
+            _list = new List<DiffJson>();
+            _repository = new DiffRepository(_list);
         }
         [Fact]
-        public void Should_add_diff_and_get_clone_by_id()
+        public void Should_add_diff_and_get_clone()
         {
             var id = "teste";
             var newDiff = new DiffJson(id);
-            _repository.Add(newDiff);
+            _list.Add(newDiff);
             var clonedDiff = _repository.GetById(id);
             Assert.Equal(newDiff, clonedDiff);
             Assert.False(newDiff==clonedDiff);
@@ -32,26 +35,21 @@ namespace JsonDiffer.UnitTest.Infrastructure.Repository
             var id = "teste";
             var json = "json";
             var newDiff = new DiffJson(id);
-            _repository.Add(newDiff);
-            _repository.Update(new DiffJson(id) { Left = json, Right = json });
-            var diffSaved = _repository.GetById(id);
-            Assert.NotEqual(newDiff, diffSaved);
-            Assert.Equal(json, diffSaved.Right);
-            Assert.Equal(json, diffSaved.Left);
+            _list.Add(newDiff);
+            var updateDiff = new DiffJson(id) { Left = json + "L", Right = json + "R" };
+            _repository.Update(updateDiff);
+            Assert.Equal(newDiff, updateDiff);
         }
 
         [Fact]
         public void Should_clone_before_adding_diff()
         {
             var id = "teste";
-            var json = "json";
             var newDiff = new DiffJson(id);
             _repository.Add(newDiff);
-            newDiff.Left = json;
-            newDiff.Right = json;
-            var diffSaved = _repository.GetById(id);
-            Assert.Null(diffSaved.Right);
-            Assert.Null(diffSaved.Left);
+            var clonedDiff = _list.First(d => d.Id == id);
+            Assert.Equal(newDiff, clonedDiff);
+            Assert.False(newDiff == clonedDiff);
         }
 
         [Fact]
