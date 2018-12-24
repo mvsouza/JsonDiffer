@@ -36,5 +36,27 @@ I want to post it.")]
                         _ => Then_should_receive_ok_message()
                     );
         }
+        [Scenario]
+        [MultiAssert]
+        public async void Try_to_post_invalid_left_side_json()
+        {
+            await Runner.RunScenarioActionsAsync(
+                        _ => Given_a_Json_document_not_on_base64("%"),
+                        _ => Given_a_diff_id("IDTEST"),
+                        _ => When_the_document_is_posted_as_left_side_diff(),
+                        _ => Then_should_receive_bad_request_message("Validation exception")
+                    );
+        }
+        [Scenario]
+        [MultiAssert]
+        public async void Try_to_post_invalid_right_side_json()
+        {
+            await Runner.RunScenarioActionsAsync(
+                        _ => Given_a_Json_document_not_on_base64("%"),
+                        _ => Given_a_diff_id("IDTEST"),
+                        _ => When_the_document_is_posted_as_right_side_diff(),
+                        _ => Then_should_receive_bad_request_message("Validation exception")
+                    );
+        }
     }
 }

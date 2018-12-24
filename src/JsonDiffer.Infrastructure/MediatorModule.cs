@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using FluentValidation;
+using JsonDiffer.Application.Behavior;
 using JsonDiffer.Application.Command;
+using JsonDiffer.Application.Validation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -20,6 +23,15 @@ namespace JsonDiffer.Infrastructure
             builder.RegisterAssemblyTypes(typeof(PushLeftJsonCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<>));
 
+            builder.RegisterAssemblyTypes(typeof(PushRightJsonCommand).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(IRequestHandler<>));
+
+            builder.RegisterAssemblyTypes(typeof(PushRightJsonCommandValidation).GetTypeInfo().Assembly)
+                   .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
+                   .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(PushLeftJsonCommandValidation).GetTypeInfo().Assembly)
+                   .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
+                   .AsImplementedInterfaces();
 
             builder.Register<SingleInstanceFactory>(context =>
             {
@@ -38,6 +50,7 @@ namespace JsonDiffer.Infrastructure
                 };
             });
             
+            builder.RegisterGeneric(typeof(ValidatorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
         }
     }
 }

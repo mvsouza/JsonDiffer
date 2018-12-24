@@ -22,7 +22,7 @@ namespace JsonDiffer.Infrastructure.API
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Route("{id}/left")]
-        public async Task<IActionResult> PostLeft([FromQuery] string id, [FromBody]string json)
+        public async Task<IActionResult> PostLeft(string id, [FromBody]string json)
         {
             return await PostSide(new PushLeftJsonCommand(id, json));
         }
@@ -30,7 +30,7 @@ namespace JsonDiffer.Infrastructure.API
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Route("{id}/right")]
-        public async Task<IActionResult> PostRight([FromQuery] string id, [FromBody]string json)
+        public async Task<IActionResult> PostRight(string id, [FromBody]string json)
         {
             return await PostSide(new PushRightJsonCommand(id, json));
         }
@@ -44,8 +44,7 @@ namespace JsonDiffer.Infrastructure.API
             }
             catch (Exception ex)
             {
-                var erroMessage = JsonConvert.SerializeObject(new { ex.Message });
-                return BadRequest(erroMessage);
+                return BadRequest(new { ex.Message });
             }
         }
 

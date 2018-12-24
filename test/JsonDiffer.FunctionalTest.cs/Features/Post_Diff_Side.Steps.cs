@@ -30,6 +30,10 @@ namespace JsonDiffer.FunctionalTest.Features
         {
             _documentOnBase64 = Convert.ToBase64String(Encoding.ASCII.GetBytes(document));
         }
+        private void Given_a_Json_document_not_on_base64(string document)
+        {
+            _documentOnBase64 = document;
+        }
 
         private void Given_a_diff_id(string id)
         {
@@ -38,6 +42,7 @@ namespace JsonDiffer.FunctionalTest.Features
 
         private async void When_the_document_is_posted_as_left_side_diff()
         {
+
             var content = new StringContent(_documentOnBase64, Encoding.ASCII, "text/json");
             var scenarioBase = new JsonDifferScenarioBase();
             _response = await scenarioBase.CreateServer().CreateClient()
@@ -54,15 +59,13 @@ namespace JsonDiffer.FunctionalTest.Features
         }
         private void Then_should_receive_bad_request_message(string message)
         {
-            _response.EnsureSuccessStatusCode();
             dynamic result = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
             Assert.False(_response.IsSuccessStatusCode);
-            Assert.Equal(message, result.Message);
+            Assert.Equal(message, (string)result.message);
         }
 
         private void Then_should_receive_ok_message()
         {
-            _response.EnsureSuccessStatusCode();
             Assert.True(_response.IsSuccessStatusCode);
         }
     }
