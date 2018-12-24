@@ -8,10 +8,13 @@ namespace JsonDiffer.Application.Command
 {
     public class PushLeftJsonCommand : IRequest
     {
-        public string Calculus { get; set; }
+        public string Id { get; set; }
+        public string Json { get; }
+
         public PushLeftJsonCommand(string id, string json)
         {
-            Calculus = id;
+            Id = id;
+            Json = json;
         }
     }
 }
