@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JsonDiffer.Domain.ValueObject;
 using JsonDiffer.Infrastructure.API;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,8 @@ namespace JsonDiffer.UnitTest.API
     {
         private Mock<IMediator> _mediator;
         private string _json =  "{\"some\":\"json\"}";
-        private Expression<Func<IMediator, Task>> _mediatorSendMessage = m => m.Send(It.IsAny<IRequest>(), It.IsAny<CancellationToken>());
+        private Expression<Func<IMediator, Task>> _mediatorSendRequest = m => m.Send(It.IsAny<IRequest>(), It.IsAny<CancellationToken>());
+        private Expression<Func<IMediator, Task<DiffResult>>> _mediatorSendResultRequest = m => m.Send(It.IsAny<IRequest<DiffResult>>(), It.IsAny<CancellationToken>());
         public DiffControllerTests()
         {
             _mediator = new Mock<IMediator>();
@@ -32,7 +34,7 @@ namespace JsonDiffer.UnitTest.API
         [Fact]
         public async Task Should_try_to_send_a_command_request_and_handle_a_exceptionAsync()
         {
-            _mediator.Setup(_mediatorSendMessage).Throws(new Exception("Left side already filed."));
+            _mediator.Setup(_mediatorSendRequest).Throws(new Exception("Left side already filed."));
             var result = await PostLeft();
             Assert.True(result is BadRequestObjectResult);
             
@@ -44,15 +46,39 @@ namespace JsonDiffer.UnitTest.API
         {
             var controller = new DiffController(_mediator.Object);
             var result = await controller.PostLeft("teste", _json);
-            _mediator.Verify(_mediatorSendMessage, Times.Once);
+            _mediator.Verify(_mediatorSendRequest, Times.Once);
             return result;
         }
         private async Task<IActionResult> PostRight()
         {
             var controller = new DiffController(_mediator.Object);
-            var result = await controller.PostRight("teste", _json);
-            _mediator.Verify(_mediatorSendMessage, Times.Exactly(2));
+            var result = await controller.Post("teste");
+            _mediator.Verify(_mediatorSendRequest, Times.Exactly(2));
             return result;
+        }
+        [Fact]
+        private async Task Should_request_diff()
+        {
+            var id = "teste";
+            var mediatrResult = Task.FromResult(new DiffResult(id, null) { AreEqual = true });
+            _mediator.Setup(_mediatorSendResultRequest).Returns(mediatrResult);
+            var controller = new DiffController(_mediator.Object);
+            var result = await controller.Post(id);
+            _mediator.Verify(_mediatorSendResultRequest, Times.Once);
+            Assert.True(result is OkObjectResult okResult && 
+                okResult.Value is DiffResult diffResult && 
+                diffResult.AreEqual);
+        }
+        [Fact]
+        private async Task Should_request_and_handle_Exception()
+        {
+            var id = "teste";
+            var mediatrResult = Task.FromResult(new DiffResult(id, null) { AreEqual = true });
+            _mediator.Setup(_mediatorSendResultRequest).Throws(new Exception("Id Not found."));
+            var controller = new DiffController(_mediator.Object);
+            var result = await controller.Post(id);
+            _mediator.Verify(_mediatorSendResultRequest, Times.Once);
+            Assert.True(result is BadRequestObjectResult);
         }
     }
 }

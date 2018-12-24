@@ -47,6 +47,22 @@ namespace JsonDiffer.Infrastructure.API
                 return BadRequest(new { ex.Message });
             }
         }
-
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [Route("{id}")]
+        public async Task<IActionResult> Post(string id)
+        {
+            try
+            {
+                var result = await _mediator.Send(new DiffCommand(id));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
     }
 }
