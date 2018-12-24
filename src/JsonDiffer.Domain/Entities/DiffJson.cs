@@ -1,6 +1,8 @@
-﻿namespace JsonDiffer.Domain.Entities
+﻿using JsonDiffer.Domain.Interfaces;
+
+namespace JsonDiffer.Domain.Entities
 {
-    public class DiffJson
+    public class DiffJson : IDiffer
     {
         public DiffJson(string id)
         {
@@ -19,5 +21,9 @@
                 && diff.Right == Right;
         }
 
+        public IDifferResult Diff()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

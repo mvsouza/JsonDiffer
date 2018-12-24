@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using JsonDiffer.Domain.ValueObject;
+﻿using JsonDiffer.Domain.Interfaces;
 using MediatR;
 
 namespace JsonDiffer.Application.Command
 {
-    public class DiffCommand : IRequest<DiffResult>
+    public class DiffCommand : IRequest<IDifferResult>
     {
-        private string _id;
+        public string Id { private set; get; }
 
         public DiffCommand(string id)
         {
-            this._id = id;
+            Id = id;
         }
     }
 }

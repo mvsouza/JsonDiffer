@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JsonDiffer.Domain;
 using JsonDiffer.Domain.Entities;
+using JsonDiffer.Domain.Interfaces;
 
 namespace JsonDiffer.Infrastructure.Repositories
 {
@@ -15,18 +16,18 @@ namespace JsonDiffer.Infrastructure.Repositories
         {
             _diffs = diff;
         }
-        public void Add(DiffJson diffJson)
+        public void Add(IDiffer diffJson)
         {
             _diffs.Add(diffJson.Clone());
         }
 
-        public DiffJson GetById(string id)
+        public IDiffer GetById(string id)
         {
             var diff = _diffs.FirstOrDefault(d => d.Id == id);
             return diff==null ? null: diff.Clone();
         }
 
-        public void Update(DiffJson diffJson)
+        public void Update(IDiffer diffJson)
         {
             var diff = _diffs.FirstOrDefault(d => d.Id == diffJson.Id);
             diff.Left = diffJson.Left;
@@ -35,7 +36,7 @@ namespace JsonDiffer.Infrastructure.Repositories
     }
     public static class DiffJsonExtension
     {
-        public static DiffJson Clone(this DiffJson diffJson)
+        public static DiffJson Clone(this IDiffer diffJson)
         {
             if (diffJson == null)
                 return null;

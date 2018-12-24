@@ -22,9 +22,10 @@ namespace JsonDiffer.Infrastructure
             // Register all the Command classes (they implement IAsyncRequestHandler) in assembly holding the Commands
             builder.RegisterAssemblyTypes(typeof(PushLeftJsonCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<>));
-
             builder.RegisterAssemblyTypes(typeof(PushRightJsonCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<>));
+            builder.RegisterAssemblyTypes(typeof(DiffCommand).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
             builder.RegisterAssemblyTypes(typeof(PushRightJsonCommandValidation).GetTypeInfo().Assembly)
                    .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
