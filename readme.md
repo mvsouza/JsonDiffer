@@ -25,7 +25,7 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
     - [x] Post invalid json for right and left side
     - [ ] Post duplicated json for right and left side
   - [ ] Post request for JSON diff
-    - [ ] Rest result for equal jsons
+    - [x] Rest result for equal jsons
     - [ ] Rest result for different sizes jsons
     - [ ] Rest result for equal sizes and different jsons
     - [ ] Inform if the key wasn't posted or if any side wasn't filled 

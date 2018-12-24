@@ -12,9 +12,10 @@ namespace JsonDiffer.Domain.ValueObject
         private ICollection<(string offset,string length)> _diffResults;
         public IEnumerable<(string offset, string length)> DiffResults { get { return _diffResults; }}
 
-        public DifferResult(string id, ICollection<(string offset, string length)> diffResults)
+        public DifferResult(string id, bool areEqual, ICollection<(string offset, string length)> diffResults)
         {
             Id = id;
+            AreEqual = areEqual;
             _diffResults = diffResults;
         }
         

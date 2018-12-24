@@ -1,4 +1,5 @@
 ﻿using JsonDiffer.Domain.Interfaces;
+using JsonDiffer.Domain.ValueObject;
 
 namespace JsonDiffer.Domain.Entities
 {
@@ -23,7 +24,8 @@ namespace JsonDiffer.Domain.Entities
 
         public IDifferResult Diff()
         {
-            throw new System.NotImplementedException();
+            var areEqual = Left == Right;
+            return new DifferResult(Id,areEqual,null);
         }
     }
 }
