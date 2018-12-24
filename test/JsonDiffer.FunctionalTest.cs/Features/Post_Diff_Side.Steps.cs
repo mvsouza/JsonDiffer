@@ -36,7 +36,7 @@ namespace JsonDiffer.FunctionalTest.Features
             _id = id;
         }
 
-        private async void When_the_document_is_posted()
+        private async void When_the_document_is_posted_as_left_side_diff()
         {
             var content = new StringContent(_documentOnBase64, Encoding.ASCII, "text/json");
             var scenarioBase = new JsonDifferScenarioBase();
@@ -44,6 +44,14 @@ namespace JsonDiffer.FunctionalTest.Features
                 .PostAsync(Post.DiffLeft(_id), content);
         }
 
+
+        private async void When_the_document_is_posted_as_right_side_diff()
+        {
+            var content = new StringContent(_documentOnBase64, Encoding.ASCII, "text/json");
+            var scenarioBase = new JsonDifferScenarioBase();
+            _response = await scenarioBase.CreateServer().CreateClient()
+                .PostAsync(Post.DiffRight(_id), content);
+        }
         private void Then_should_receive_bad_request_message(string message)
         {
             _response.EnsureSuccessStatusCode();

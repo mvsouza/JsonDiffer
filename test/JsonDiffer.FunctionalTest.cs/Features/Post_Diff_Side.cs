@@ -16,12 +16,23 @@ I want to post it.")]
     {
         [Scenario]
         [MultiAssert]
-        public async void Solve_a_add()
+        public async void Post_valid_left_side_json()
         {
             await Runner.RunScenarioActionsAsync(
                         _ => Given_a_Json_document_on_base64("{\"key\":\"value\"}"),
                         _ => Given_a_diff_id("IDTEST"),
-                        _ => When_the_document_is_posted(),
+                        _ => When_the_document_is_posted_as_left_side_diff(),
+                        _ => Then_should_receive_ok_message()
+                    );
+        }
+        [Scenario]
+        [MultiAssert]
+        public async void Post_valid_right_side_json()
+        {
+            await Runner.RunScenarioActionsAsync(
+                        _ => Given_a_Json_document_on_base64("{\"key\":\"value\"}"),
+                        _ => Given_a_diff_id("IDTEST"),
+                        _ => When_the_document_is_posted_as_right_side_diff(),
                         _ => Then_should_receive_ok_message()
                     );
         }

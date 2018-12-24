@@ -27,15 +27,17 @@ namespace JsonDiffer.UnitTest.Infrastructure.Repository
         }
 
         [Fact]
-        public void Should_update_left_side_diff()
+        public void Should_update_sides_diff()
         {
             var id = "teste";
             var json = "json";
             var newDiff = new DiffJson(id);
             _repository.Add(newDiff);
-            _repository.Update(new DiffJson(id) { Left = json });
+            _repository.Update(new DiffJson(id) { Left = json, Right = json });
             var diffSaved = _repository.GetById(id);
             Assert.NotEqual(newDiff, diffSaved);
+            Assert.Equal(json, diffSaved.Right);
+            Assert.Equal(json, diffSaved.Left);
         }
 
         [Fact]
@@ -46,8 +48,10 @@ namespace JsonDiffer.UnitTest.Infrastructure.Repository
             var newDiff = new DiffJson(id);
             _repository.Add(newDiff);
             newDiff.Left = json;
+            newDiff.Right = json;
             var diffSaved = _repository.GetById(id);
-            Assert.NotEqual(newDiff, diffSaved);
+            Assert.Null(diffSaved.Right);
+            Assert.Null(diffSaved.Left);
         }
 
         [Fact]

@@ -21,9 +21,7 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 - [x] [Backlog(Userstories)](docs/Backlog.md)
 - [ ] Writte down Bdd Scenarios
     - [ ] Post JSON doc for Diff
-        - [ ] Post valid diff sides
-            - [ ] Right
-            - [x] Left
+        - [x] Post valid diff sides for right and left side
         - [ ] Post invalid diff for right and left side
         - [ ] Post duplicated diff for right and left side
     - [ ] Post request for JSON diff

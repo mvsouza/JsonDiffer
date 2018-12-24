@@ -9,12 +9,14 @@
 
         public string Id { get; set; }
         public string Left { get; set; }
+        public string Right { get; set; }
 
         public override bool Equals(object obj)
         {
             return obj is DiffJson diff 
-                && diff.Id == Id 
-                && diff.Left == Left;
+                && diff.Id == Id
+                && diff.Left == Left
+                && diff.Right == Right;
         }
 
     }

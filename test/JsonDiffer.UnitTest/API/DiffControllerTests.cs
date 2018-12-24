@@ -26,12 +26,17 @@ namespace JsonDiffer.UnitTest.API
         {
             var result = await PostLeft();
             Assert.True(result is OkResult);
+            result = await PostRight();
+            Assert.True(result is OkResult);
         }
         [Fact]
         public async Task Should_try_to_send_a_command_request_and_handle_a_exceptionAsync()
         {
             _mediator.Setup(_mediatorSendMessage).Throws(new Exception("Left side already filed."));
             var result = await PostLeft();
+            Assert.True(result is BadRequestObjectResult);
+            
+            result = await PostRight();
             Assert.True(result is BadRequestObjectResult);
         }
 
@@ -40,6 +45,13 @@ namespace JsonDiffer.UnitTest.API
             var controller = new DiffController(_mediator.Object);
             var result = await controller.PostLeft("teste", _json);
             _mediator.Verify(_mediatorSendMessage, Times.Once);
+            return result;
+        }
+        private async Task<IActionResult> PostRight()
+        {
+            var controller = new DiffController(_mediator.Object);
+            var result = await controller.PostRight("teste", _json);
+            _mediator.Verify(_mediatorSendMessage, Times.Exactly(2));
             return result;
         }
     }

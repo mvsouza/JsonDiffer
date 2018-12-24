@@ -30,6 +30,7 @@ namespace JsonDiffer.Infrastructure.Repositories
         {
             var diff = _diffs.FirstOrDefault(d => d.Id == diffJson.Id);
             diff.Left = diffJson.Left;
+            diff.Right = diffJson.Right;
         }
     }
     public static class DiffJsonExtension
@@ -38,7 +39,7 @@ namespace JsonDiffer.Infrastructure.Repositories
         {
             if (diffJson == null)
                 return null;
-            return new DiffJson(diffJson.Id) { Left = diffJson.Left };
+            return new DiffJson(diffJson.Id) { Left = diffJson.Left, Right = diffJson.Right };
         }
     }    
 
