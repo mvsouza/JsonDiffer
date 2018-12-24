@@ -1,9 +1,9 @@
 # Assignment
 
 - Provide 2 http endpoints that accepts JSON base64 encoded binary data on both endpoints
-  - <host>/v1/diff/<ID>/left and <host>/v1/diff/<ID>/right
+  - `<host>`/v1/diff/`<ID>`/left and `<host>`/v1/diff/`<ID>`/right
 - The provided data needs to be diff-ed and the results shall be available on a third endpoint
-  - <host>/v1/diff/<ID>
+  - `<host>`/v1/diff/`<ID>`
 - The results shall provide the following info in JSON format
   - If equal return that
   - If not of equal size just return that

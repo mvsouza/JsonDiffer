@@ -17,6 +17,10 @@ namespace JsonDiffer.FunctionalTest.Setup
             return new TestServer(BuildWebHost());
         }
 
+        public TestServer CreateServer(IWebHostBuilder buildWebHost)
+        {
+            return new TestServer(buildWebHost);
+        }
 
         public static class Post
         {
