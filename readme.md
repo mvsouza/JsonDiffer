@@ -19,12 +19,12 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 - [x] Archtecture overview
 - [x] CI pipeline
 - [x] [Backlog(Userstories)](docs/Backlog.md)
-- [ ] Writte down Bdd Scenarios
-  - [ ] Post JSON doc for Diff
+- [x] Writte down Bdd Scenarios
+  - [x] Post JSON doc for Diff
     - [x] Post valid json sides for right and left side
     - [x] Post invalid json for right and left side
     - [ ] Post duplicated json for right and left side
-  - [ ] Post request for JSON diff
+  - [x] Post request for JSON diff
     - [x] Rest result for equal jsons
     - [x] Rest result for different sizes jsons
     - [x] Rest result for equal sizes and different jsons
@@ -34,12 +34,19 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 ### Technical Tasks
 
 - [x] Project setup
+- [x] Review diagram
 - [ ] Remove fix messages from code
 - [ ] Setup a database for persistence 
 - [ ] Find better response message format for identifying diff with different sizes
-- [ ] Create scripts to easyly do exploratory test(swagger-codegen)
+- [ ] Create scripts to easyly do exploratory testing(swagger-codegen)
+- [ ] Refactor diffjson sides to reduce duplicated code
+
 
 ## Pipeline metrics
+
+### Staging env
+
+![Heroku](https://heroku-badge.herokuapp.com/?app=jsondiffer-mvs)
 
 ### Master
 
