@@ -14,6 +14,8 @@ namespace JsonDiffer.Infrastructure
 {
     public class Startup
     {
+        private const string _swaggerJsonPath = "/swagger/v1/swagger.json";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -58,7 +60,7 @@ namespace JsonDiffer.Infrastructure
             app.UseSwagger()
                .UseSwaggerUI(c =>
                {
-                   c.SwaggerEndpoint("/swagger/v1/swagger.json", "JsonDiffer API V1");
+                   c.SwaggerEndpoint(_swaggerJsonPath, "JsonDiffer API V1");
                    c.RoutePrefix = string.Empty;
                }
             );

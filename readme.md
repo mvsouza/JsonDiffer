@@ -27,7 +27,7 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
   - [ ] Post request for JSON diff
     - [x] Rest result for equal jsons
     - [x] Rest result for different sizes jsons
-    - [ ] Rest result for equal sizes and different jsons
+    - [x] Rest result for equal sizes and different jsons
     - [ ] Inform if the key wasn't posted 
     - [ ] Inform if any side wasn't filled 
 
@@ -37,7 +37,7 @@ On the VCS I've implemented a CI pipeline that builds the solution, run the unit
 - [ ] Remove fix messages from code
 - [ ] Setup a database for persistence 
 - [ ] Find better response message format for identifying diff with different sizes
-- [ ] Create scripts to do easyly exploratory test(swagger-codegen)
+- [ ] Create scripts to easyly do exploratory test(swagger-codegen)
 
 ## Pipeline metrics
 

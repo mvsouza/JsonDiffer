@@ -10,7 +10,7 @@ namespace JsonDiffer.Application.Command
 {
     public class DiffCommandHandler : IRequestHandler<DiffCommand, IDifferResult>
     {
-        private IDiffRepository _repository;
+        private readonly IDiffRepository _repository;
 
         public DiffCommandHandler(IDiffRepository repository)
         {

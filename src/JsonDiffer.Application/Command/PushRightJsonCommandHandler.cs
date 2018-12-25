@@ -8,7 +8,7 @@ namespace JsonDiffer.Application.Command
 {
     public class PushRightJsonCommandHandler : IRequestHandler<PushRightJsonCommand>
     {
-        private IDiffRepository _diffRepository;
+        private readonly IDiffRepository _diffRepository;
         public PushRightJsonCommandHandler(IDiffRepository diffRepository)
         {
             _diffRepository = diffRepository;

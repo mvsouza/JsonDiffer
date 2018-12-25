@@ -10,7 +10,7 @@ namespace JsonDiffer.Infrastructure.Repositories
 {
     public class DiffRepository : IDiffRepository
     {
-        private ICollection<DiffJson> _diffs;
+        private readonly ICollection<DiffJson> _diffs;
 
         public DiffRepository(ICollection<DiffJson> diff)
         {
@@ -27,11 +27,11 @@ namespace JsonDiffer.Infrastructure.Repositories
             return diff==null ? null: diff.Clone();
         }
 
-        public void Update(IDiffer diffJson)
+        public void Update(IDiffer diff)
         {
-            var diff = _diffs.FirstOrDefault(d => d.Id == diffJson.Id);
-            diff.Left = diffJson.Left;
-            diff.Right = diffJson.Right;
+            var diffToUpdate = _diffs.FirstOrDefault(d => d.Id == diff.Id);
+            diffToUpdate.Left = diff.Left;
+            diffToUpdate.Right = diff.Right;
         }
     }
     public static class DiffJsonExtension

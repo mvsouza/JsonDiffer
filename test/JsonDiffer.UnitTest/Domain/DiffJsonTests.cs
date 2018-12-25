@@ -21,6 +21,7 @@ namespace JsonDiffer.UnitTest.Domain
             var diffJason = new DiffJson(_id) { Left =json, Right=json };
             var differResult = diffJason.Diff();
             Assert.True(differResult.AreEqual);
+            Assert.Equal(_id,differResult.Id);
         }
         [Fact]
         public void Should_return_that_the_jsons_are_different()

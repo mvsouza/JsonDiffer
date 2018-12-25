@@ -54,9 +54,7 @@ namespace JsonDiffer.Infrastructure.InputFormattter
         
         public static bool IsFromContentType(this InputFormatterContext context, string contentType)
         {
-            var request = context.HttpContext.Request;
             var formatterContentType = context.HttpContext.Request.ContentType;
-
             return string.IsNullOrEmpty(formatterContentType) || formatterContentType.Contains(contentType);
         }
 }
