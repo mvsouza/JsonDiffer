@@ -33,10 +33,15 @@ namespace JsonDiffer.FunctionalTest.Features
             _service = scenarioBase.CreateServer(webHostBuilder);
             _collection = _service.Host.Services.GetService<ICollection<DiffJson>>();
         }
-        private void Then_should_receive_that_documents_are_equal()
+        private void Then_should_receive_a_message_that_they_are_equal()
         {
             dynamic result = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
             Assert.True((bool)result.areEqual);
+        }
+        private void Then_should_receive_message_that_are_from_diferent_sizes()
+        {
+            dynamic result = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
+            Assert.False((bool)result.areEqual);
         }
         private void Then_should_ba_receive_a_ok_message()
         {

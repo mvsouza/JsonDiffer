@@ -27,3 +27,4 @@
   - If of same size provide insight in where the diffs are, actual diffs are not needed.
     - So mainly offsets + length in the data
 - If there is any diff side missing, it should return a bad request(400), and a message alerting the missing sides
+- If there no diff if the key provided should return not found(404)

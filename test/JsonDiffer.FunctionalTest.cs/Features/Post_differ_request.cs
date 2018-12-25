@@ -22,9 +22,22 @@ I want to post it.")]
                         _ => Given_a_posted_right_side("{\"key\":\"value\"}"),
                         _ => When_diff_is_requested(),
                         _ => Then_should_ba_receive_a_ok_message(),
-                        _ => Then_should_receive_that_documents_are_equal()
+                        _ => Then_should_receive_a_message_that_they_are_equal()
                     );
         }
-      
+        [Scenario]
+        [MultiAssert]
+        public async void Should_compare_different_sizes_sides()
+        {
+            await Runner.RunScenarioActionsAsync(
+                        _ => Given_a_diff_id("IDTEST"),
+                        _ => Given_a_posted_left_side("{\"key\":\"value\"}"),
+                        _ => Given_a_posted_right_side("{\"key\":\"value123\"}"),
+                        _ => When_diff_is_requested(),
+                        _ => Then_should_ba_receive_a_ok_message(),
+                        _ => Then_should_receive_message_that_are_from_diferent_sizes()
+                    );
+        }
+
     }
 }
