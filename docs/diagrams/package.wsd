@@ -1,9 +1,18 @@
 @startuml
 skinparam Handwritten true
+class DiffRest.Infrastructure.Program{
+    +void Main(string[] args)
+    +IWebHostBuilder CreateWebHostBuilder(string[] args)
+}
+class DiffRest.Infrastructure.Startup{
+    +IServiceProvider ConfigureServices(IServiceCollection services)
+    +void Configure(IApplicationBuilder app, IHostingEnvironment env)
+}
 class DiffRest.Infrastructure.DiffController{
-    +Task<IActionResult> PostLeft(string key, string jsonContent)
-    +Task<IActionResult> PostRight(string key, string jsonContent)
-    +Task<IActionResult<DiffResult>> PostDiff(string id)
+    -IMediator _mediator;
+    +Task<IActionResult> PostLeft(string id, string json)
+    +Task<IActionResult> PostRight(string id, string json)
+    +Task<IActionResult> Post(string id)
 }
 class DiffRest.Infrastructure.Program{
     +void Main(string[] args)
@@ -13,49 +22,73 @@ class DiffRest.Infrastructure.Startup{
     +IServiceProvider ConfigureServices(IServiceCollection services)
     +void Configure(IApplicationBuilder app, IHostingEnvironment env)
 }
+interface DiffRest.Infrastructure.DiffRepository{
+    +void Add(IDiffer diff)
+    +void Update(IDiffer diff)
+    +IDiffer GetById(string id)
+}
 class DiffRest.Application.PushLeftJsonCommand{
-    +string Key
-    +string JsonContent
+    +string Id
+    +string Json
 }
 class DiffRest.Application.PushRightJsonCommand{
-    +string Key
-    +string JsonContent
+    +string Id
+    +string Json
 }
 class DiffRest.Application.DiffCommand{
-    +string Key
+    +string Id
 }
 class DiffRest.Application.PushLeftJsonCommandHandler{
-    -IDiffJsonRepository _diffRepository
-    +bool Handler(PushLeftJsonCommand command)
+    -IDiffRepository _diffRepository
+    +Task Handler(PushLeftJsonCommand command)
 }
 class DiffRest.Application.PushRightJsonCommandHandler{
-    -IDiffJsonRepository _diffRepository
-    +bool Handler(PushRightJsonCommand command)
+    -IDiffRepository _diffRepository
+    +Task Handler(PushRightJsonCommand command)
 }
 class DiffRest.Application.DiffCommandHandler{
-    -IDiffJsonRepository _diffRepository
-    +DiffResult Handler(DiffCommand command)
+    -IDiffRepository _diffRepository
+    +Task<IDifferResult> Handler(DiffCommand command)
 }
-interface DiffRest.Domain.IDiffJsonRepository{
-    +void AttachLeftContent(string key, string content)
-    +void AttachRightContent(string key, string content)
-    +DiffJson GetDiffJsonByKey(string key)
+interface DiffRest.Domain.IDiffRepository{
+    +void Add(IDiffer diff)
+    +void Update(IDiffer diff)
+    +IDiffer GetById(string id)
 }
-class DiffRest.Domain.DiffJson{
-    +string Key
+class DiffRest.Domain.IDiffer{
+    +string Id
     +string Left
     +string Right
-    +DiffResult Diff(DiffCommand command)
+    +DiffResult Diff()
 }
-class DiffRest.Domain.DiffResult{
-    +bool IsEqual
-    +List<(int offset,int length)> Diff
+class DiffRest.Domain.DiffJson{
+    +string Id
+    +string Left
+    +string Right
+    +IDifferResult Diff()
+}
+class DiffRest.Domain.DifferResult{
+    +string Id
+    +bool AreEqual
+    +IEnumeravle<Segment> DiffResults
+}
+interface DiffRest.Domain.IDifferResult{
+    +string Id
+    +bool AreEqual
+    +IEnumeravle<Segment> DiffResults
+}
+class DiffRest.Domain.Segment{
+    +int Offset
+    +int Length
 }
 interface Mediatr.IRequest<TResponse>{
 }
 interface Mediatr.IRequestHandler<TRequest : IRequest<TResponse>, TResponse>{
     +TResponse Handle(TRequest command)
 }
+
+
+
 DiffRest.Application.PushLeftJsonCommand <.down. DiffRest.Infrastructure.DiffController
 DiffRest.Application.PushRightJsonCommand <.down. DiffRest.Infrastructure.DiffController
 DiffRest.Application.DiffCommand <.down. DiffRest.Infrastructure.DiffController
@@ -75,10 +108,18 @@ DiffRest.Application.DiffCommandHandler .right.> Mediatr.IRequestHandler
 
 Mediatr.IRequestHandler .up.>  Mediatr.IRequest
 
-DiffRest.Infrastructure.DiffController .down.> DiffRest.Domain.DiffResult 
-DiffRest.Application.DiffCommandHandler .down.> DiffRest.Domain.DiffResult 
+DiffRest.Infrastructure.DiffController .down.> DiffRest.Domain.IDifferResult 
+DiffRest.Application.DiffCommandHandler .down.> DiffRest.Domain.IDifferResult 
 
-DiffRest.Domain.DiffJson .left.> DiffRest.Domain.DiffResult
-DiffRest.Infrastructure.Program .left.> DiffRest.Infrastructure.Startup
+DiffRest.Infrastructure.DiffRepository .down.> DiffRest.Domain.IDiffRepository
+DiffRest.Domain.IDiffRepository .left.> DiffRest.Domain.IDiffer
+DiffRest.Domain.DiffJson .left.> DiffRest.Domain.DifferResult
+DiffRest.Domain.DiffJson .up.> DiffRest.Domain.IDifferResult
+DiffRest.Domain.DiffJson .up.|> DiffRest.Domain.IDiffer
+DiffRest.Domain.DifferResult .up.|> DiffRest.Domain.IDifferResult
+DiffRest.Infrastructure.Program .up.> DiffRest.Infrastructure.Startup
+DiffRest.Infrastructure.Program -[hidden]> DiffRest.Infrastructure.DiffController
+DiffRest.Domain.IDifferResult ..> DiffRest.Domain.Segment
+DiffRest.Domain.DifferResult ..> DiffRest.Domain.Segment
 
 @enduml

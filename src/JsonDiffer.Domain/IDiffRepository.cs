@@ -8,7 +8,7 @@ namespace JsonDiffer.Domain
 {
     public interface IDiffRepository
     {
-        void Add(IDiffer diffJson);
+        void Add(IDiffer diff);
         IDiffer GetById(string id);
         void Update(IDiffer diff);
     }

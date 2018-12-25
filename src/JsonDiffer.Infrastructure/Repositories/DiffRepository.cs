@@ -16,9 +16,9 @@ namespace JsonDiffer.Infrastructure.Repositories
         {
             _diffs = diff;
         }
-        public void Add(IDiffer diffJson)
+        public void Add(IDiffer diff)
         {
-            _diffs.Add(diffJson.Clone());
+            _diffs.Add(diff.Clone());
         }
 
         public IDiffer GetById(string id)
