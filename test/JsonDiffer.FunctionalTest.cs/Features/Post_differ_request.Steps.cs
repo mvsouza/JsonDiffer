@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using JsonDiffer.Domain.Entities;
@@ -38,10 +39,17 @@ namespace JsonDiffer.FunctionalTest.Features
             dynamic result = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
             Assert.True((bool)result.areEqual);
         }
-        private void Then_should_receive_message_that_are_from_diferent_sizes()
+        private void Then_should_receive_message_that_are_from_different()
         {
             dynamic result = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
             Assert.False((bool)result.areEqual);
+        }
+        private void Then_should_specify_the_offset_and_length_of_diff(int offset, int length)
+        {
+            dynamic result = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
+            var diffResults = (IEnumerable<dynamic>)result.diffResults;
+            Assert.Single(diffResults);
+            Assert.Contains(diffResults, r => r.offset==offset&&r.length==length);
         }
         private void Then_should_ba_receive_a_ok_message()
         {

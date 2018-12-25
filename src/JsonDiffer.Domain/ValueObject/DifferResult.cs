@@ -9,10 +9,10 @@ namespace JsonDiffer.Domain.ValueObject
     {
         public bool AreEqual { get; private set; }
         public string Id { get; private set; }
-        private ICollection<(string offset,string length)> _diffResults;
-        public IEnumerable<(string offset, string length)> DiffResults { get { return _diffResults; }}
+        private ICollection<Segment> _diffResults;
+        public IEnumerable<Segment> DiffResults { get { return _diffResults; }}
 
-        public DifferResult(string id, bool areEqual, ICollection<(string offset, string length)> diffResults)
+        public DifferResult(string id, bool areEqual, ICollection<Segment> diffResults)
         {
             Id = id;
             AreEqual = areEqual;

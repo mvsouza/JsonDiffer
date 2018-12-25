@@ -35,9 +35,22 @@ I want to post it.")]
                         _ => Given_a_posted_right_side("{\"key\":\"value123\"}"),
                         _ => When_diff_is_requested(),
                         _ => Then_should_ba_receive_a_ok_message(),
-                        _ => Then_should_receive_message_that_are_from_diferent_sizes()
+                        _ => Then_should_receive_message_that_are_from_different()
                     );
         }
-
+        [Scenario]
+        [MultiAssert]
+        public async void Should_compare_same_size_jsons_find_different_parts()
+        {
+            await Runner.RunScenarioActionsAsync(
+                        _ => Given_a_diff_id("IDTEST"),
+                        _ => Given_a_posted_left_side("{\"key\":\"value\"}"),
+                        _ => Given_a_posted_right_side("{\"key\":\"tests\"}"),
+                        _ => When_diff_is_requested(),
+                        _ => Then_should_ba_receive_a_ok_message(),
+                        _ => Then_should_receive_message_that_are_from_different(),
+                        _ => Then_should_specify_the_offset_and_length_of_diff(8,5)
+                    );
+        }
     }
 }

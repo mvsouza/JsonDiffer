@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using JsonDiffer.Domain.ValueObject;
 
 namespace JsonDiffer.Domain.Interfaces
 {
@@ -8,6 +9,6 @@ namespace JsonDiffer.Domain.Interfaces
     {
         bool AreEqual { get;}
         string Id { get; }
-        IEnumerable<(string offset, string length)> DiffResults { get; }
+        IEnumerable<Segment> DiffResults { get; }
     }
 }
