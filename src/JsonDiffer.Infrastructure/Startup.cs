@@ -34,7 +34,7 @@ namespace JsonDiffer.Infrastructure
                 {
                     Title = "JsonDiffer HTTP API",
                     Version = "v1",
-                    Description = "The Math Solver Service HTTP API",
+                    Description = "JSON Diff Service HTTP API",
                     TermsOfService = "Terms Of Service"
                 });
             });

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using JsonDiffer.Domain.Entities;
+using JsonDiffer.Domain.ValueObject;
 using Xunit;
 
 namespace JsonDiffer.UnitTest.Domain
@@ -30,15 +32,39 @@ namespace JsonDiffer.UnitTest.Domain
             var differResult = diffJason.Diff();
             Assert.False(differResult.AreEqual);
         }
-        [Fact]
-        public void Should_return_that_the_jsons_they_are_different_and_where_they_are()
+        public static TheoryData<string, string, IEnumerable<Segment>> DifferentJsonWithSameSize
         {
-            var offset = 8;
-            var length = 5;
-            var diffJason = new DiffJson(_id) { Left = "{\"key\":\"value\"}", Right = "{\"key\":\"tests\"}" };
+            get
+            {
+                var theoryData = new TheoryData<string, string, IEnumerable<Segment>>();
+                theoryData.Add("{\"key\":\"value\"}", "{\"key\":\"tests\"}", new List<Segment>{new Segment(8,5)});
+                theoryData.Add("{\"bey\":\"tests\"}", "{\"key\":\"tests\"}", new List<Segment> { new Segment(2, 1) });
+                theoryData.Add("{\"bey\":\"value\"}", "{\"key\":\"tests\"}", new List<Segment> { new Segment(2, 1), new Segment(8, 5) });
+                return theoryData;
+            }
+        }
+        [Theory]
+        [MemberData(nameof(DifferentJsonWithSameSize))]
+        public void Should_return_that_the_jsons_they_are_different_and_where_they_are(string left, string right, IEnumerable<Segment> segments)
+        {
+            var diffJason = new DiffJson(_id) { Left = left, Right = right };
             var differResult = diffJason.Diff();
             Assert.False(differResult.AreEqual);
-            Assert.Contains(differResult.DiffResults, r => r.Offset == offset && r.Length == length);
+            Assert.Equal(differResult.DiffResults.Count(),segments.Count());
+            foreach (var seg in segments)
+            {
+                Assert.Contains(differResult.DiffResults, r => r.Equals(seg));
+            }
+        }
+        [Fact]
+        public void Equal_objecs_should_have_equal_hashcodes()
+        {
+            var left = "left";
+            var right = "right";
+            var firstDiff = new DiffJson(_id) { Left = left, Right = right };
+            var secondDiff = new DiffJson(_id) { Left = left, Right = right };
+            Assert.Equal(firstDiff, secondDiff);
+            Assert.Equal(firstDiff.GetHashCode(), secondDiff.GetHashCode());
         }
     }
 }

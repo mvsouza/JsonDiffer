@@ -20,7 +20,9 @@ namespace JsonDiffer.Domain.Entities
         public override bool Equals(object obj)
         {
             return obj is DiffJson diff
-                && diff.GetHashCode() == GetHashCode();
+                && diff.Id == Id
+                && String.Equals(diff.Left, Left)
+                && String.Equals(diff.Right, Right);
         }
         public override int GetHashCode()
         {

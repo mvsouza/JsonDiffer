@@ -13,5 +13,16 @@ namespace JsonDiffer.Domain.ValueObject
             Offset = offset;
             Length = length;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Segment seg
+                && seg.Offset == Offset
+                && seg.Length == Length;
+        }
+        public override int GetHashCode()
+        {
+            return Offset ^ Length;
+        }
     }
 }
