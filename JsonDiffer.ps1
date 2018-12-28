@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [parameter(Mandatory=$true, Position=1)]
-    [ValidateSet("openCover", "sonarqubeLocalBuild", "statusSonarqube", "startSonarqubeContainer","stopSonarqubeContainer", "installDependencies", "sonarCloudBuild")]
+    [ValidateSet("openCover", "sonarqubeLocalBuild", "statusSonarqube", "startSonarqubeContainer","stopSonarqubeContainer", "installDependencies", "sonarCloudBuild", "deploy")]
     [string]$action,
     [parameter(Mandatory=$false)]
     [switch]$all
@@ -9,7 +9,6 @@ param(
 process {
     #Requires -Modules Set-PsEnv
     Set-PsEnv
-
     function SonarqubeStatus($add){
         $status = Invoke-RestMethod "$add/api/system/status";
         return $status.status -eq "UP";
@@ -20,7 +19,6 @@ process {
         $opencoverFilter = "+[$projectName*]* -[*UnitTest]*";
         $target = "test --logger:trx;LogFileName=$outputDir\results.trx $($unitTestProj.FullName)";
         OpenCover.Console.exe -register:user -target:"$dotnet" -targetargs:"$target" -filter:"$opencoverFilter" -oldStyle -output:"$opencoverFile";
-
     }
 
     $tasks = @{};
@@ -28,7 +26,6 @@ process {
     $tasks.Add("sonarCloudBuild",@{
         description="Runs build and Sonnar Scanner on SonarCloud.";
         script = {
-            #Requires -Modules Set-PsEnv
             SonarQube.Scanner.MSBuild.exe begin /k:"$env:sonarcloud_key" /d:sonar.organization="$env:sonarcloud_org" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$env:sonarcloud_login" /d:sonar.cs.opencover.reportsPaths="OpenCover.xml";
             dotnet msbuild;
             OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full test\JsonDiffer.UnitTest\JsonDiffer.UnitTest.csproj" -filter:"+[JsonDiffer*]* -[*.Test*]*" -oldStyle -output:"OpenCover.xml";
@@ -97,6 +94,15 @@ process {
             RunOpenCover $projectName $outputDir $opencoverFile;
             reportgenerator -reports:"$opencoverFile" -targetdir:"$outputDir";
             & "$outputDir\Index.htm";
+        }
+    });
+    $tasks.Add("deploy",@{
+        description="";
+        script = {
+            docker-compose build --force-rm;
+            docker login --username=_ --password=$env:api_key registry.heroku.com;
+            docker tag jsondiffer registry.heroku.com/$env:heroku_name/web;
+            docker push registry.heroku.com/$env:heroku_name/web;
         }
     });
     $task = $tasks.Get_Item($action)
