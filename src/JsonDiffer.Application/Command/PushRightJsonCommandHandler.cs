@@ -13,14 +13,14 @@ namespace JsonDiffer.Application.Command
         {
             _diffRepository = diffRepository;
         }
-        public async Task Handle(PushRightJsonCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(PushRightJsonCommand command, CancellationToken cancellationToken)
         {
 
             var diff = _diffRepository.GetById(command.Id);
             if (diff != null)
             {
                 if (!string.IsNullOrEmpty(diff.Right))
-                    return;
+                    return await Unit.Task;
                 diff.Right = command.Json;
                 _diffRepository.Update(diff);
             }
@@ -28,6 +28,7 @@ namespace JsonDiffer.Application.Command
             {
                 _diffRepository.Add(new DiffJson(command.Id) { Right = command.Json });
             }
+            return await Unit.Task;
         }
     }
 }

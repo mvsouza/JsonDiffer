@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using JsonDiffer.Application.Behavior;
 using JsonDiffer.Domain;
 using JsonDiffer.Domain.Entities;
 using JsonDiffer.Infrastructure.InputFormattter;
 using JsonDiffer.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +27,7 @@ namespace JsonDiffer.Infrastructure
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
             services.AddSwaggerGen(options =>
@@ -41,11 +44,9 @@ namespace JsonDiffer.Infrastructure
             services.AddMvc(o => o.InputFormatters.Insert(0, new RawRequestBodyFormatter()));
             services.AddSingleton<ICollection<DiffJson>,List<DiffJson>>();
             services.AddTransient<IDiffRepository, DiffRepository>();
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
 
-            var container = new ContainerBuilder();
-            container.Populate(services);
-            container.RegisterModule(new MediatorModule());
-            return new AutofacServiceProvider(container.Build());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
