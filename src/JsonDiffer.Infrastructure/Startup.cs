@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using JsonDiffer.Application.Behavior;
 using JsonDiffer.Domain;
 using JsonDiffer.Domain.Entities;

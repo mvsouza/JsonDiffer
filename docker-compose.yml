@@ -3,7 +3,7 @@ version: '3.3'
 services: 
     
   JsonDiffer.API:
-    image: jsondiffer:${TAG:-latest}
+    image: ${heroku_name}:${TAG:-latest}
     build:
       context: .
       dockerfile: src/JsonDiffer.Infrastructure/Dockerfile
