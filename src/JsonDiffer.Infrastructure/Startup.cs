@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using FluentValidation;
 using JsonDiffer.Application.Behavior;
+using JsonDiffer.Application.Command;
+using JsonDiffer.Application.Validation;
 using JsonDiffer.Domain;
 using JsonDiffer.Domain.Entities;
 using JsonDiffer.Infrastructure.InputFormattter;
@@ -42,8 +45,10 @@ namespace JsonDiffer.Infrastructure
             services.AddMvc(o => o.InputFormatters.Insert(0, new RawRequestBodyFormatter()));
             services.AddSingleton<ICollection<DiffJson>,List<DiffJson>>();
             services.AddTransient<IDiffRepository, DiffRepository>();
-            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+            services.AddMediatR(typeof(PushLeftJsonCommand).GetTypeInfo().Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+            services.AddTransient(typeof(IValidator<PushLeftJsonCommand>), typeof(PushLeftJsonCommandValidation));
+            services.AddTransient(typeof(IValidator<PushRightJsonCommand>), typeof(PushRightJsonCommandValidation));
 
         }
 

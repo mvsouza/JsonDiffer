@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,8 +8,8 @@ namespace JsonDiffer.Application.Behavior
 {
     public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        private readonly IValidator<TRequest>[] _validators;
-        public ValidatorBehavior(IValidator<TRequest>[] validators) => _validators = validators;
+        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        public ValidatorBehavior(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
