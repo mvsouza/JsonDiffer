@@ -1,5 +1,8 @@
 @startuml
 skinparam Handwritten true
+skinparam monochrome true	
+skinparam packageStyle rect	
+skinparam shadowing false
 class DiffRest.Infrastructure.Program{
     +void Main(string[] args)
     +IWebHostBuilder CreateWebHostBuilder(string[] args)
